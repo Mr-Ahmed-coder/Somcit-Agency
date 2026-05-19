@@ -97,6 +97,15 @@ export const projects = [
     image:
       'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80',
   },
+  {
+    title: 'Pharmacy Management System',
+    description:
+      'A modern pharmacy management solution for medicine inventory, billing, sales tracking, supplier management, and daily pharmacy operations.',
+    technologies: ['React', 'Node.js', 'MongoDB', 'Inventory'],
+    videoFile: 'Pharmacy Management.mp4',
+    image:
+      'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1200&q=80',
+  },
 ];
 
 export const reasons = [

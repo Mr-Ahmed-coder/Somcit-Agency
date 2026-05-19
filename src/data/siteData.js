@@ -77,7 +77,7 @@ export const projects = [
     title: 'Supermarket Management System',
     description: 'A complete POS, inventory, billing, sales analytics, and customer management platform for retail operations.',
     technologies: ['React', 'Node.js', 'MongoDB', 'Tailwind CSS'],
-    videoFile: 'Supermarket demo.mp4',
+    videoFile: 'super market.mp4',
     image:
       'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
   },
@@ -90,10 +90,10 @@ export const projects = [
       'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80',
   },
   {
-    title: 'Supplier & Invoice Management System',
-    description: 'A structured business system for suppliers, invoices, purchase records, payments, and document tracking.',
+    title: 'Cosmetics Supplier Management System',
+    description: 'A modern supplier and invoice system for cosmetics businesses, covering stock, purchases, payments, and supplier records.',
     technologies: ['React', 'Express.js', 'MongoDB', 'REST API'],
-    videoFile: 'supplier system.mp4',
+    videoFile: 'Supplier-system-cosmetics.mp4',
     image:
       'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80',
   },

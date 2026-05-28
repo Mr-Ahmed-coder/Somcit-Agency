@@ -144,7 +144,7 @@ export const reasons = [
 export const stats = [
   {
     icon: FiCheckCircle,
-    value: 3,
+    value: 4,
     suffix: '+',
     title: 'Systems Developed',
     description: 'Business-ready software systems built for real operational workflows.',

@@ -8,20 +8,23 @@ import Stats from './sections/Stats.jsx';
 import Contact from './sections/Contact.jsx';
 import Footer from './sections/Footer.jsx';
 import FloatingWhatsApp from './components/FloatingWhatsApp.jsx';
+import { LanguageProvider } from './i18n/LanguageContext.jsx';
 
 export default function App() {
   return (
-    <main className="min-h-screen overflow-hidden bg-white text-somcit-ink">
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Projects />
-      <WhyChooseUs />
-      <Stats />
-      <Contact />
-      <Footer />
-      <FloatingWhatsApp />
-    </main>
+    <LanguageProvider>
+      <main className="min-h-screen overflow-hidden bg-white text-somcit-ink">
+        <Navbar />
+        <Hero />
+        <About />
+        <Services />
+        <Projects />
+        <WhyChooseUs />
+        <Stats />
+        <Contact />
+        <Footer />
+        <FloatingWhatsApp />
+      </main>
+    </LanguageProvider>
   );
 }

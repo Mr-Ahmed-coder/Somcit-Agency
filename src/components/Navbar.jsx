@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiMenu, FiX } from 'react-icons/fi';
 import { navLinks } from '../data/siteData.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import Container from './Container.jsx';
 
 const sectionIds = navLinks.map((link) => link.href.replace('#', ''));
@@ -11,6 +12,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [scrolled, setScrolled] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const updateNavigationState = () => {
@@ -62,7 +64,7 @@ export default function Navbar() {
       }`}
     >
       <Container className="flex h-20 items-center justify-between">
-        <button type="button" onClick={() => scrollToSection('#home')} className="flex items-center gap-3 text-left" aria-label="SOMACIT home">
+        <button type="button" onClick={() => scrollToSection('#home')} className="flex items-center gap-3 text-left" aria-label={t.navbar.homeLabel}>
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-somcit-navy text-lg font-black text-white shadow-soft">
             S
           </span>
@@ -73,7 +75,7 @@ export default function Navbar() {
         </button>
 
         <nav className="hidden items-center gap-9 lg:flex">
-          {navLinks.map((link) => {
+          {navLinks.map((link, index) => {
             const sectionId = link.href.replace('#', '');
             const active = activeSection === sectionId;
 
@@ -86,7 +88,7 @@ export default function Navbar() {
                   active ? 'text-somcit-navy' : 'text-slate-600 hover:text-somcit-navy'
                 }`}
               >
-                {link.label}
+                {t.nav[index]}
                 <span
                   className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left rounded-full bg-somcit-blue transition-transform duration-300 ${
                     active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
@@ -102,14 +104,30 @@ export default function Navbar() {
           onClick={() => scrollToSection('#contact')}
           className="hidden rounded-xl bg-somcit-navy px-5 py-3 text-sm font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-somcit-blue hover:shadow-card lg:inline-flex"
         >
-          Start a project
+          {t.navbar.startProject}
         </button>
+
+        <div className="hidden items-center rounded-xl border border-slate-200 bg-white/75 p-1 shadow-sm lg:flex">
+          {['en', 'so'].map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => setLanguage(code)}
+              className={`rounded-lg px-3 py-2 text-xs font-black uppercase transition ${
+                language === code ? 'bg-somcit-navy text-white shadow-soft' : 'text-slate-500 hover:bg-somcit-sky hover:text-somcit-navy'
+              }`}
+              aria-pressed={language === code}
+            >
+              {code}
+            </button>
+          ))}
+        </div>
 
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
           className="grid h-11 w-11 place-items-center rounded-xl border border-slate-200 bg-white/80 text-somcit-navy shadow-sm lg:hidden"
-          aria-label={open ? 'Close navigation' : 'Open navigation'}
+          aria-label={open ? t.navbar.closeNavigation : t.navbar.openNavigation}
         >
           {open ? <FiX size={22} /> : <FiMenu size={22} />}
         </button>
@@ -125,7 +143,7 @@ export default function Navbar() {
             className="border-t border-slate-100 bg-white/95 shadow-soft backdrop-blur-xl lg:hidden"
           >
             <Container className="grid gap-2 py-4">
-              {navLinks.map((link) => {
+              {navLinks.map((link, index) => {
                 const sectionId = link.href.replace('#', '');
                 const active = activeSection === sectionId;
 
@@ -138,10 +156,25 @@ export default function Navbar() {
                       active ? 'bg-somcit-sky text-somcit-blue' : 'text-slate-700 hover:bg-somcit-sky hover:text-somcit-navy'
                     }`}
                   >
-                    {link.label}
+                    {t.nav[index]}
                   </button>
                 );
               })}
+              <div className="mt-2 flex w-fit items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+                {['en', 'so'].map((code) => (
+                  <button
+                    key={code}
+                    type="button"
+                    onClick={() => setLanguage(code)}
+                    className={`rounded-lg px-3 py-2 text-xs font-black uppercase transition ${
+                      language === code ? 'bg-somcit-navy text-white shadow-soft' : 'text-slate-500 hover:bg-somcit-sky hover:text-somcit-navy'
+                    }`}
+                    aria-pressed={language === code}
+                  >
+                    {code}
+                  </button>
+                ))}
+              </div>
             </Container>
           </motion.div>
         )}

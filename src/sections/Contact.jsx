@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import Container from '../components/Container.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 
 const whatsappNumber = '256754844459';
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: 'System Development',
+    projectType: 'system',
     message: '',
   });
   const [errors, setErrors] = useState({});
@@ -25,15 +27,15 @@ export default function Contact() {
     const nextErrors = {};
 
     if (!formData.name.trim()) {
-      nextErrors.name = 'Please enter your name.';
+      nextErrors.name = t.contact.errors.name;
     }
 
     if (!formData.email.trim()) {
-      nextErrors.email = 'Please enter your email address.';
+      nextErrors.email = t.contact.errors.email;
     }
 
     if (!formData.message.trim()) {
-      nextErrors.message = 'Please tell us a little about your project.';
+      nextErrors.message = t.contact.errors.message;
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -42,12 +44,12 @@ export default function Contact() {
     }
 
     const whatsappMessage = [
-      'Hello SOMACIT, I would like to inquire about your services and discuss a project.',
+      t.contact.whatsappIntro,
       '',
-      `Name: ${formData.name.trim()}`,
-      `Email: ${formData.email.trim()}`,
-      `Project Type: ${formData.projectType}`,
-      `Message: ${formData.message.trim()}`,
+      `${t.contact.whatsappLabels.name}: ${formData.name.trim()}`,
+      `${t.contact.whatsappLabels.email}: ${formData.email.trim()}`,
+      `${t.contact.whatsappLabels.projectType}: ${t.contact.projectTypes[formData.projectType]}`,
+      `${t.contact.whatsappLabels.message}: ${formData.message.trim()}`,
     ].join('\n');
 
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener,noreferrer');
@@ -61,16 +63,16 @@ export default function Contact() {
           <SectionHeader
             align="left"
             inverse
-            eyebrow="Contact"
-            title="Ready to turn your workflow into a polished system?"
-            description="Tell us what you are building, improving, or automating. SOMACIT can help shape the product, interface, and technical path."
+            eyebrow={t.contact.eyebrow}
+            title={t.contact.title}
+            description={t.contact.description}
           />
           <div className="mt-9 grid gap-4">
             <a href="mailto:hello@somcit.com" className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.08] p-4 shadow-soft backdrop-blur transition hover:bg-white/[0.12]">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-somcit-blue">
                 <FiMail />
               </span>
-              <span className="font-semibold text-white/[0.82]">hello@somcit.com</span>
+              <span className="font-semibold text-white/[0.82]">somcit@gmail.com</span>
             </a>
             <a href="tel:+256754844459" className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.08] p-4 shadow-soft backdrop-blur transition hover:bg-white/[0.12]">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-somcit-blue">
@@ -82,7 +84,7 @@ export default function Contact() {
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-somcit-blue">
                 <FiMapPin />
               </span>
-              <span className="font-semibold text-white/[0.82]">Remote delivery Around the World</span>
+              <span className="font-semibold text-white/[0.82]">{t.contact.location}</span>
             </div>
           </div>
         </div>
@@ -94,20 +96,20 @@ export default function Contact() {
         >
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="grid gap-2 text-sm font-bold text-somcit-navy">
-              Name
+              {t.contact.name}
               <input
                 value={formData.name}
                 onChange={(event) => updateField('name', event.target.value)}
                 className={`rounded-xl border bg-white px-4 py-3 font-medium outline-none transition focus:border-somcit-blue focus:ring-4 focus:ring-somcit-blue/10 ${
                   errors.name ? 'border-red-300' : 'border-slate-200'
                 }`}
-                placeholder="Your name"
+                placeholder={t.contact.namePlaceholder}
                 aria-invalid={Boolean(errors.name)}
               />
               {errors.name && <span className="text-xs font-bold text-red-500">{errors.name}</span>}
             </label>
             <label className="grid gap-2 text-sm font-bold text-somcit-navy">
-              Email
+              {t.contact.email}
               <input
                 type="email"
                 value={formData.email}
@@ -115,39 +117,39 @@ export default function Contact() {
                 className={`rounded-xl border bg-white px-4 py-3 font-medium outline-none transition focus:border-somcit-blue focus:ring-4 focus:ring-somcit-blue/10 ${
                   errors.email ? 'border-red-300' : 'border-slate-200'
                 }`}
-                placeholder="you@example.com"
+                placeholder={t.contact.emailPlaceholder}
                 aria-invalid={Boolean(errors.email)}
               />
               {errors.email && <span className="text-xs font-bold text-red-500">{errors.email}</span>}
             </label>
           </div>
           <label className="mt-5 grid gap-2 text-sm font-bold text-somcit-navy">
-            Project type
+            {t.contact.projectType}
             <select
               value={formData.projectType}
               onChange={(event) => updateField('projectType', event.target.value)}
               className="rounded-xl border border-slate-200 bg-white px-4 py-3 font-medium outline-none transition focus:border-somcit-blue focus:ring-4 focus:ring-somcit-blue/10"
             >
-              <option>System Development</option>
-              <option>Software Development</option>
-              <option>Website Development</option>
+              <option value="system">{t.contact.projectTypes.system}</option>
+              <option value="software">{t.contact.projectTypes.software}</option>
+              <option value="website">{t.contact.projectTypes.website}</option>
             </select>
           </label>
           <label className="mt-5 grid gap-2 text-sm font-bold text-somcit-navy">
-            Message
+            {t.contact.message}
             <textarea
               value={formData.message}
               onChange={(event) => updateField('message', event.target.value)}
               className={`min-h-36 rounded-xl border bg-white px-4 py-3 font-medium outline-none transition focus:border-somcit-blue focus:ring-4 focus:ring-somcit-blue/10 ${
                 errors.message ? 'border-red-300' : 'border-slate-200'
               }`}
-              placeholder="Briefly describe the system or digital solution you need."
+              placeholder={t.contact.messagePlaceholder}
               aria-invalid={Boolean(errors.message)}
             />
             {errors.message && <span className="text-xs font-bold text-red-500">{errors.message}</span>}
           </label>
           <button type="submit" className="mt-6 w-full rounded-xl bg-somcit-navy px-6 py-4 font-black text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-somcit-blue hover:shadow-card">
-            Send inquiry
+            {t.contact.submit}
           </button>
         </form>
       </Container>

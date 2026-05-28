@@ -1,17 +1,19 @@
 import { motion } from 'framer-motion';
 import { FaWhatsapp } from 'react-icons/fa';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 
 const phoneNumber = '256754844459';
-const message = 'Hello SOMACIT, I would like to build a system for my business.';
-const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
 export default function FloatingWhatsApp() {
+  const { t } = useLanguage();
+  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(t.whatsapp.message)}`;
+
   return (
     <motion.a
       href={whatsappUrl}
       target="_blank"
       rel="noreferrer"
-      aria-label="Contact SOMACIT on WhatsApp"
+      aria-label={t.whatsapp.label}
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: [1, 1.04, 1] }}
       transition={{

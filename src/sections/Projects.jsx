@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FiPlay, FiPlayCircle, FiX } from 'react-icons/fi';
 import { projects } from '../data/siteData.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import Container from '../components/Container.jsx';
 import SectionHeader from '../components/SectionHeader.jsx';
 
@@ -17,14 +18,17 @@ function resolveVideoLoader(fileName) {
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
   const [activeVideoSrc, setActiveVideoSrc] = useState('');
+  const { t } = useLanguage();
 
   const projectShowcases = useMemo(
     () =>
-      projects.map((project) => ({
+      projects.map((project, index) => ({
         ...project,
+        title: t.projects.items[index].title,
+        description: t.projects.items[index].description,
         videoLoader: resolveVideoLoader(project.videoFile),
       })),
-    [],
+    [t],
   );
 
   useEffect(() => {
@@ -69,9 +73,9 @@ export default function Projects() {
     <section id="projects" className="scroll-mt-24 bg-gradient-to-b from-somcit-mist via-white to-somcit-mist py-28 sm:py-36">
       <Container>
         <SectionHeader
-          eyebrow="Featured Projects"
-          title="Cinematic demos of real business systems."
-          description="Explore modern SOMACIT software showcases built around retail, education, suppliers, invoices, and daily operations."
+          eyebrow={t.projects.eyebrow}
+          title={t.projects.title}
+          description={t.projects.description}
         />
         <div className="mt-16 grid gap-7 lg:grid-cols-3">
           {projectShowcases.map((project, index) => (
@@ -94,19 +98,19 @@ export default function Projects() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-somcit-navy/85 via-somcit-navy/10 to-transparent" />
                 <div className="absolute left-5 top-5 rounded-full border border-white/20 bg-white/15 px-3 py-1 text-xs font-black uppercase tracking-[0.14em] text-white backdrop-blur">
-                  Video demo
+                  {t.projects.videoDemo}
                 </div>
                 <button
                   type="button"
                   onClick={() => setActiveProject(project)}
                   className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/35 bg-white/20 text-white shadow-premium backdrop-blur transition duration-300 group-hover:scale-110 group-hover:bg-somcit-blue"
-                  aria-label={`Watch ${project.title} demo`}
+                  aria-label={`${t.projects.watchAria} ${project.title}`}
                 >
                   <FiPlay className="ml-1" size={26} />
                 </button>
                 <div className="absolute inset-x-5 bottom-5 flex items-center justify-between">
                   <span className="rounded-full bg-white/95 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-somcit-navy">
-                    Demo preview
+                    {t.projects.demoPreview}
                   </span>
                   <span className="grid h-12 w-12 place-items-center rounded-full bg-somcit-blue text-white shadow-card transition group-hover:scale-110">
                     <FiPlayCircle size={22} />
@@ -128,7 +132,7 @@ export default function Projects() {
                   onClick={() => setActiveProject(project)}
                   className="mt-6 inline-flex w-full items-center justify-center gap-3 rounded-xl border border-somcit-blue/15 bg-somcit-navy px-5 py-3 font-bold text-white transition hover:bg-somcit-blue hover:shadow-card"
                 >
-                  <FiPlayCircle /> Watch Demo
+                  <FiPlayCircle /> {t.projects.watchDemo}
                 </button>
               </div>
             </motion.article>
@@ -148,7 +152,7 @@ export default function Projects() {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-label={`${activeProject.title} video demo`}
+              aria-label={`${activeProject.title} ${t.projects.projectDemo}`}
               className="relative w-full max-w-5xl overflow-hidden rounded-[28px] border border-white/15 bg-somcit-navy shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
               initial={{ opacity: 0, y: 28, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -158,7 +162,7 @@ export default function Projects() {
             >
               <div className="flex items-start justify-between gap-5 border-b border-white/10 p-5 sm:p-6">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-somcit-blue">Project demo</p>
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-somcit-blue">{t.projects.projectDemo}</p>
                   <h3 className="mt-2 font-display text-2xl font-extrabold text-white sm:text-3xl">{activeProject.title}</h3>
                   <p className="mt-2 max-w-2xl leading-7 text-white/[0.68]">{activeProject.description}</p>
                 </div>
@@ -166,7 +170,7 @@ export default function Projects() {
                   type="button"
                   onClick={() => setActiveProject(null)}
                   className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/10 text-white transition hover:bg-somcit-blue"
-                  aria-label="Close video modal"
+                  aria-label={t.projects.closeModal}
                 >
                   <FiX size={22} />
                 </button>
@@ -185,7 +189,7 @@ export default function Projects() {
                   />
                 ) : (
                   <div className="grid aspect-video place-items-center px-6 text-center text-white">
-                    Loading demo video...
+                    {t.projects.loading}
                   </div>
                 )}
               </div>
